@@ -1,0 +1,72 @@
+{
+  "existing": {
+    "analyze": {
+      "ANALYZE00": {
+        "analysis": {},
+        "anomalies": [],
+        "citationVerification": {},
+        "events": [],
+        "evidence": [],
+        "model": "s73",
+        "presetId": "s74",
+        "rocmPerformance": {},
+        "success": true,
+        "telemetry": {},
+        "timeline": [],
+        "id": "ANALYZE00"
+      },
+      "ANALYZE01": {
+        "analysis": {},
+        "anomalies": [],
+        "citationVerification": {},
+        "events": [],
+        "evidence": [],
+        "model": "se1",
+        "presetId": "se2",
+        "rocmPerformance": {},
+        "success": true,
+        "telemetry": {},
+        "timeline": [],
+        "id": "ANALYZE01"
+      },
+      "ANALYZE02": {
+        "analysis": {},
+        "anomalies": [],
+        "citationVerification": {},
+        "events": [],
+        "evidence": [],
+        "model": "s14f",
+        "presetId": "s150",
+        "rocmPerformance": {},
+        "success": true,
+        "telemetry": {},
+        "timeline": [],
+        "id": "ANALYZE02"
+      }
+    }
+  },
+  "new": {
+    "analyze": {
+      "analyze_ref01": {
+        "analysis": {},
+        "anomalies": [],
+        "citationVerification": {},
+        "events": [],
+        "evidence": [],
+        "model": "s1bd",
+        "presetId": "s1be",
+        "rocmPerformance": {},
+        "success": true,
+        "telemetry": {},
+        "timeline": []
+      }
+    }
+  },
+  "requests": {
+    "POST /api/analyze": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

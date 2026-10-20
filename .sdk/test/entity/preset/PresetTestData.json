@@ -1,0 +1,40 @@
+{
+  "existing": {
+    "preset": {
+      "PRESET00": {
+        "description": "s28",
+        "events": [],
+        "id": "PRESET00",
+        "title": "s2b"
+      },
+      "PRESET01": {
+        "description": "s50",
+        "events": [],
+        "id": "PRESET01",
+        "title": "s53"
+      },
+      "PRESET02": {
+        "description": "s78",
+        "events": [],
+        "id": "PRESET02",
+        "title": "s7b"
+      }
+    }
+  },
+  "new": {
+    "preset": {
+      "preset_ref01": {
+        "description": "sa0",
+        "events": [],
+        "title": "sa3"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/presets": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

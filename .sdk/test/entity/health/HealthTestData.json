@@ -1,0 +1,48 @@
+{
+  "existing": {
+    "health": {
+      "HEALTH00": {
+        "amdConfigured": true,
+        "amdModel": "s33",
+        "inferenceMode": "s34",
+        "service": "s35",
+        "status": "s36",
+        "id": "HEALTH00"
+      },
+      "HEALTH01": {
+        "amdConfigured": true,
+        "amdModel": "s65",
+        "inferenceMode": "s66",
+        "service": "s67",
+        "status": "s68",
+        "id": "HEALTH01"
+      },
+      "HEALTH02": {
+        "amdConfigured": true,
+        "amdModel": "s97",
+        "inferenceMode": "s98",
+        "service": "s99",
+        "status": "s9a",
+        "id": "HEALTH02"
+      }
+    }
+  },
+  "new": {
+    "health": {
+      "health_ref01": {
+        "amdConfigured": true,
+        "amdModel": "sc9",
+        "inferenceMode": "sca",
+        "service": "scb",
+        "status": "scc"
+      }
+    }
+  },
+  "requests": {
+    "GET /health": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

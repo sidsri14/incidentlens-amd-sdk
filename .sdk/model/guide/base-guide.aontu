@@ -1,0 +1,30 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 3
+  metrics: count: path: 3
+  metrics: count: method: 3
+
+  entity: analyze: {
+    path: "/api/analyze": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: health: {
+    path: "/health": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: preset: {
+    path: "/api/presets": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.presets`")|top
+    }
+  }
+
+}

@@ -1,0 +1,73 @@
+# Entity: health
+
+main: kit: entity: health: {
+
+  alias: field: {}
+
+  fields: {
+    amdConfigured: {
+      h: "Amd Configured"
+      n: "amdConfigured"
+      r: true
+      t: "`$BOOLEAN`"
+    }
+    amdModel: {
+      h: "Amd Model"
+      n: "amdModel"
+      r: true
+      t: "`$STRING`"
+    }
+    inferenceMode: {
+      h: "Inference Mode"
+      n: "inferenceMode"
+      r: true
+      t: "`$STRING`"
+    }
+    service: {
+      h: "Service"
+      n: "service"
+      r: true
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "health"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /health"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/health"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "health"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

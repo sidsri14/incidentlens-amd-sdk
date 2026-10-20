@@ -1,0 +1,20 @@
+{
+  "files": [
+    "SUMMARY.md"
+  ],
+  "config": ".sdk/doc/qa/vale.ini",
+  "routes": {},
+  "quoted": {
+    "SUMMARY.md": [
+      "Available trace presets",
+      "Current service health",
+      "Evidence-bound incident analysis",
+      "Evidence-bound incident analysis for LLM gateway traces. The public service exposes deterministic presets, health metadata, and a fail-closed analysis pipeline whose claims are tied to event identifiers.",
+      "Inspect service health and the active inference mode.",
+      "List the built-in trace scenarios.",
+      "Optional AMD TokenFactory model override when the backend is configured.",
+      "Public deterministic evaluation deployment",
+      "Run evidence-bound incident analysis for a trace or built-in preset."
+    ]
+  }
+}

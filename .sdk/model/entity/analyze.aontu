@@ -1,0 +1,118 @@
+# Entity: analyze
+
+main: kit: entity: analyze: {
+
+  alias: field: {}
+
+  fields: {
+    analysis: {
+      h: "Analysis"
+      n: "analysis"
+      r: true
+      t: "`$OBJECT`"
+    }
+    anomalies: {
+      h: "Anomalies"
+      n: "anomalies"
+      r: true
+      t: "`$ARRAY`"
+    }
+    citationVerification: {
+      h: "Citation Verification"
+      n: "citationVerification"
+      r: true
+      t: "`$OBJECT`"
+    }
+    events: {
+      h: "Events"
+      n: "events"
+      r: false
+      t: "`$ARRAY`"
+    }
+    evidence: {
+      h: "Evidence"
+      n: "evidence"
+      r: true
+      t: "`$ARRAY`"
+    }
+    model: {
+      h: "Model"
+      n: "model"
+      r: false
+      sh: "Optional AMD TokenFactory model override when the backend is configured."
+      t: "`$STRING`"
+    }
+    presetId: {
+      h: "Preset Id"
+      n: "presetId"
+      r: false
+      t: "`$STRING`"
+    }
+    rocmPerformance: {
+      h: "Rocm Performance"
+      n: "rocmPerformance"
+      r: true
+      t: "`$OBJECT`"
+    }
+    success: {
+      h: "Success"
+      n: "success"
+      r: true
+      t: "`$BOOLEAN`"
+    }
+    telemetry: {
+      h: "Telemetry"
+      n: "telemetry"
+      r: true
+      t: "`$OBJECT`"
+    }
+    timeline: {
+      h: "Timeline"
+      n: "timeline"
+      r: true
+      t: "`$ARRAY`"
+    }
+  }
+
+  name: "analyze"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "events"
+            "model"
+            "presetId"
+          ]
+          co: {
+            id: "POST /api/analyze"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/analyze"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "analyze"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,26 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      auth: false
+      description: "Evidence-bound incident analysis for LLM gateway traces. The public service exposes deterministic presets, health metadata, and a fail-closed analysis pipeline whose claims are tied to event identifiers."
+      license: {
+        name: "MIT"
+        url: "https://opensource.org/licenses/MIT"
+      }
+      servers: [
+        {
+          description: "Public deterministic evaluation deployment"
+          url: "https://incidentlens-amd.vercel.app"
+        }
+      ]
+      summary: "Evidence-bound incident analysis for LLM gateway traces."
+      title: "IncidentLens AMD API"
+      version: "1.0.0"
+      website: "https://incidentlens-amd.vercel.app"
+    }
+  }
+}
+

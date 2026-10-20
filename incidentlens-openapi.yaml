@@ -1,0 +1,322 @@
+openapi: 3.0.3
+info:
+  title: IncidentLens AMD API
+  version: 1.0.0
+  description: >-
+    Evidence-bound incident analysis for LLM gateway traces. The public service
+    exposes deterministic presets, health metadata, and a fail-closed analysis
+    pipeline whose claims are tied to event identifiers.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://incidentlens-amd.vercel.app
+    description: Public deterministic evaluation deployment
+tags:
+  - name: Health
+  - name: Presets
+  - name: Analysis
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      tags: [Health]
+      summary: Get service and inference-mode health
+      responses:
+        '200':
+          description: Current service health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /api/presets:
+    get:
+      operationId: listPresets
+      tags: [Presets]
+      summary: List built-in incident trace scenarios
+      responses:
+        '200':
+          description: Available trace presets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresetListResponse'
+  /api/analyze:
+    post:
+      operationId: analyzeIncident
+      tags: [Analysis]
+      summary: Analyze an incident trace with citation validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyzeRequest'
+            examples:
+              preset:
+                value:
+                  presetId: retry-storm
+      responses:
+        '200':
+          description: Evidence-bound incident analysis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyzeResponse'
+        '400':
+          description: No events or valid preset identifier was supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request body exceeds 64 KiB
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Content-Type is not application/json
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status, service, inferenceMode, amdConfigured, amdModel]
+      properties:
+        status:
+          type: string
+          example: ok
+        service:
+          type: string
+          example: incidentlens-amd
+        inferenceMode:
+          type: string
+          enum: [amd-tokenfactory, deterministic-simulation]
+        amdConfigured:
+          type: boolean
+        amdModel:
+          type: string
+    PresetListResponse:
+      type: object
+      required: [presets]
+      properties:
+        presets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Preset'
+    Preset:
+      type: object
+      required: [id, title, description, events]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        events:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TraceEvent'
+    AnalyzeRequest:
+      type: object
+      description: Supply either a non-empty events array or a valid presetId.
+      properties:
+        presetId:
+          type: string
+          enum: [premature-disconnect, retry-storm, cache-poisoning]
+        events:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TraceEvent'
+        model:
+          type: string
+          description: Optional AMD TokenFactory model override when the backend is configured.
+    TraceEvent:
+      type: object
+      required: [id, timestamp, type]
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          pattern: '^EVT-[0-9]{3,}$'
+        timestamp:
+          type: integer
+          minimum: 0
+        type:
+          type: string
+        method:
+          type: string
+        route:
+          type: string
+        model:
+          type: string
+        streaming:
+          type: boolean
+        statusCode:
+          type: integer
+        chunkIndex:
+          type: integer
+        tokenCount:
+          type: integer
+        latencyMs:
+          type: integer
+        isDoneMarker:
+          type: boolean
+        attempt:
+          type: integer
+        backoffMs:
+          type: integer
+        reason:
+          type: string
+        error:
+          type: string
+        action:
+          type: string
+        targetKey:
+          type: string
+    AnalyzeResponse:
+      type: object
+      required:
+        - success
+        - telemetry
+        - timeline
+        - anomalies
+        - evidence
+        - analysis
+        - citationVerification
+        - rocmPerformance
+      properties:
+        success:
+          type: boolean
+        telemetry:
+          $ref: '#/components/schemas/Telemetry'
+        timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraceEvent'
+        anomalies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Anomaly'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceItem'
+        analysis:
+          $ref: '#/components/schemas/AnalysisResult'
+        citationVerification:
+          $ref: '#/components/schemas/CitationVerification'
+        rocmPerformance:
+          $ref: '#/components/schemas/RocmPerformance'
+    Telemetry:
+      type: object
+      required:
+        - totalEvents
+        - durationMs
+        - isStreaming
+        - hasDoneMarker
+        - chunkCount
+        - totalTokens
+        - avgChunkLatencyMs
+        - maxChunkLatencyMs
+        - anomalyCount
+        - overallSeverity
+      properties:
+        totalEvents: { type: integer }
+        durationMs: { type: integer }
+        isStreaming: { type: boolean }
+        hasDoneMarker: { type: boolean }
+        chunkCount: { type: integer }
+        totalTokens: { type: integer }
+        timeToFirstTokenMs:
+          type: integer
+          nullable: true
+        avgChunkLatencyMs: { type: number }
+        maxChunkLatencyMs: { type: number }
+        anomalyCount: { type: integer }
+        overallSeverity: { type: string }
+    Anomaly:
+      type: object
+      required: [type, eventId, severity, detail, timestamp]
+      properties:
+        type: { type: string }
+        eventId: { type: string }
+        severity: { type: string }
+        detail: { type: string }
+        timestamp: { type: integer }
+    EvidenceItem:
+      type: object
+      required: [id, timestamp, type, summary, raw]
+      properties:
+        id: { type: string }
+        timestamp: { type: integer }
+        type: { type: string }
+        summary: { type: string }
+        raw:
+          $ref: '#/components/schemas/TraceEvent'
+    AnalysisResult:
+      type: object
+      required: [content, model, provider, simulated]
+      properties:
+        content: { type: string }
+        model: { type: string }
+        provider: { type: string }
+        simulated: { type: boolean }
+    CitationVerification:
+      type: object
+      required:
+        - valid
+        - totalCitations
+        - uniqueValidCitations
+        - invalidCitations
+        - claimCount
+        - uncitedClaims
+        - wordCount
+        - citationDensity
+      properties:
+        valid: { type: boolean }
+        failureReason:
+          type: string
+          nullable: true
+        totalCitations: { type: integer }
+        uniqueValidCitations:
+          type: array
+          items: { type: string }
+        invalidCitations:
+          type: array
+          items: { type: string }
+        claimCount: { type: integer }
+        uncitedClaims:
+          type: array
+          items: { type: string }
+        wordCount: { type: integer }
+        citationDensity: { type: number }
+    RocmPerformance:
+      type: object
+      required: [inferenceLatencyMs, deterministicParseMs, totalLatencyMs, usage]
+      properties:
+        inferenceLatencyMs: { type: integer }
+        deterministicParseMs: { type: integer }
+        totalLatencyMs: { type: integer }
+        usage:
+          $ref: '#/components/schemas/TokenUsage'
+    TokenUsage:
+      type: object
+      required: [prompt_tokens, completion_tokens, total_tokens]
+      properties:
+        prompt_tokens: { type: integer }
+        completion_tokens: { type: integer }
+        total_tokens: { type: integer }
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }

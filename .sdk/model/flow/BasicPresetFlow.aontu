@@ -1,0 +1,22 @@
+# BasicPresetFlow
+
+main: kit: flow: BasicPresetFlow:
+{
+  entity: "preset",
+  kind: "basic",
+  name: "BasicPresetFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "preset_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPresetFlow"
+}

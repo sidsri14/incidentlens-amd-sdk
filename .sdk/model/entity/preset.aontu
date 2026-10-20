@@ -1,0 +1,75 @@
+# Entity: preset
+
+main: kit: entity: preset: {
+
+  alias: field: {}
+
+  fields: {
+    description: {
+      h: "Description"
+      n: "description"
+      r: true
+      t: "`$STRING`"
+    }
+    events: {
+      h: "Events"
+      n: "events"
+      r: true
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "preset"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/presets"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/presets"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "presets"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.presets`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
